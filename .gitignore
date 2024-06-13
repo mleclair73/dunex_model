@@ -1,0 +1,13 @@
+## Don't store outputs, the old folder or any build folders
+**/output/**   
+old/**  
+**/Build/**
+**/logs/**
+
+# Don't store coawst binaries
+coawstM
+coawstG
+
+## Python
+*.pyc 
+.ipynb_checkpoints
