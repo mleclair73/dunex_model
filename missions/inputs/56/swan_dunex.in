@@ -33,7 +33,7 @@ INPGRID FRIC CURVILINEAR 0 0 900 1000 EXC 9.999000e+003                 &
         NONSTAT  20000101.000000 25 DAY 20000126.000000
 
 && WIND [vel] [dir] &&
-WIND 6.5 4.2
+WIND 3.36 260.67
 
 && BOUNDARY FORCING &&
 BOUNDSPEC SEGMent IJ 900 0 900 1000 CONSTANT FILE '/gscratch/derakhti/shared/mleclair/dunex_model/missions/forcing/mission56.spc2d'
