@@ -11,3 +11,7 @@ coawstG
 ## Python
 *.pyc 
 .ipynb_checkpoints
+
+# Fortran
+.f90
+.mod    
