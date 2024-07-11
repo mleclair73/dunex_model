@@ -44,19 +44,31 @@
 
 #SBATCH --export=all
 
+
+start=`date +%s`
+echo "start: " $start
+
+echo "Loading Modules" 
 module load ompi/4.1.0
 
 module use /gscratch/derakhti/shared/module
 module load netcdf_c_gcc9
 module load netcdf_fortran_gcc9
 
-DIR="/gscratch/derakhti/shared/mleclair/dunex_model/mission"
+
+echo "Modules Loaded" 
+
+DIR="/gscratch/derakhti/shared/mleclair/dunex_model/missions"
 ID=19
 
 start=`date +%s`
-# mkdir -p $DIR/run/logs/$ID
-# mkdir -p $DIR/output/$ID
-mpirun -np 40 /gscratch/derakhti/shared/mleclair/dunex_model/missions/coawstM /gscratch/derakhti/shared/mleclair/dunex_model/missions/inputs/19/coupling_dunex.in > /gscratch/derakhti/shared/mleclair/dunex_model/missions/run/logs/19/log.out 2>&1
+mkdir -p $DIR/run/logs/$ID
+mkdir -p $DIR/output/$ID
+rm $DIR/run/logs/*
+
+mpirun -np 40 $DIR/coawstM \
+$DIR/inputs/$ID/coupling_dunex.in > \
+$DIR/run/logs/$ID/log.out 2>&1
 # mkdir -p run/logs/$ID
 # mv PRINT* run/logs/$ID
 # mv slurm* run/logs/$ID
@@ -64,5 +76,6 @@ mpirun -np 40 /gscratch/derakhti/shared/mleclair/dunex_model/missions/coawstM /g
 # mv Errfile* run/logs/$ID
 
 end=`date +%s`
+echo "end: " $end
 runtime=$((end-start))
 echo $runtime

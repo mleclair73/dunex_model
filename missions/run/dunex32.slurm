@@ -44,28 +44,40 @@
 
 #SBATCH --export=all
 
+echo "module load ompi/4.1.0"
 module load ompi/4.1.0
 
+echo "module use /gscratch/derakhti/shared/module"
 module use /gscratch/derakhti/shared/module
+echo "module load netcdf_c_gcc9"
 module load netcdf_c_gcc9
+echo "module load netcdf_fortran_gcc9"
 module load netcdf_fortran_gcc9
 
-DIR="/gscratch/derakhti/shared/mleclair/dunex_model/mission"
+DIR="/gscratch/derakhti/shared/mleclair/missions"
+# DIR="~/mleclair/dunex_model"
 ID=32
 
 start=`date +%s`
+echo "START: $start"
 mkdir -p $DIR/run/logs/$ID
 mkdir -p $DIR/output/$ID
 echo "mpirun -np 40 $DIR/coawstM $DIR/inputs/$ID/coupling_dunex.in > $DIR/run/logs/$ID/log.out 2>&1"
 
-mpirun -np 40 /gscratch/derakhti/shared/mleclair/dunex_model/missions/coawstM /gscratch/derakhti/shared/mleclair/dunex_model/missions/inputs/32/coupling_dunex.in > /gscratch/derakhti/shared/mleclair/dunex_model/missions/run/logs/32/log.out 2>&1
+# There's a filename length limit on coawst.
+mpirun -np 40 $DIR/coawstM \
+$DIR/inputs/$ID/coupling_dunex.in > \
+$DIR/run/logs/$ID/log.out 2>&1
 
-mkdir -p run/logs/$ID
-mv PRINT* run/logs/$ID
-mv slurm* run/logs/$ID
-mv swaninit* run/logs/$ID
-mv Errfile* run/logs/$ID
+# mpirun -np 40 /gscratch/derakhti/shared/mleclair/dunex_model/missions/coawstM /gscratch/derakhti/shared/mleclair/dunex_model/missions/inputs/32/coupling_dunex.in > /gscratch/derakhti/shared/mleclair/dunex_model/missions/run/logs/32/log.out 2>&1
 
-# end=`date +%s`
-# runtime=$((end-start))
-# echo Runtime: $runtime
+mkdir -p $DIR/run/logs/$ID
+mv PRINT* $DIR/run/logs/$ID
+mv slurm* $DIR/run/logs/$ID
+mv swaninit* $DIR/run/logs/$ID
+mv Errfile* $DIR/run/logs/$ID
+
+end=`date +%s`
+echo "END: $end"
+runtime=$((end-start))
+echo Runtime: $runtime
